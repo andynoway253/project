@@ -3,48 +3,18 @@
         <div class="sidebar-sticky">
             <ul class="nav flex-column">
                 <li class="nav-item">
-                    <a class="nav-link" href="#/adminIndex/adminOrder">
-                        <i class="fas fa-th-large mr-2"></i>
-                        Orders
-                    </a>
-                </li>
-                <li class="nav-item">
                     <a class="nav-link" href="#/adminIndex/adminProduct">
-                        <span data-feather="shopping-cart"></span>
-                        Products
-                    </a>
-                </li>
-            </ul>
-
-            <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
-                <span>Saved reports</span>
-                <a class="d-flex align-items-center text-muted" href="#">
-                <span data-feather="plus-circle"></span>
-                </a>
-            </h6>
-            <ul class="nav flex-column mb-2">
-                <li class="nav-item">
-                    <a class="nav-link" href="#">
-                        <span data-feather="file-text"></span>
-                        Current month
+                        產品列表
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">
-                        <span data-feather="file-text"></span>
-                        Last quarter
+                    <a class="nav-link" href="#/adminIndex/adminOrder">
+                        訂單列表
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">
-                        <span data-feather="file-text"></span>
-                        Social engagement
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">
-                        <span data-feather="file-text"></span>
-                        Year-end sale
+                    <a class="nav-link" href="#/adminIndex/adminCoupon">
+                        優惠卷
                     </a>
                 </li>
             </ul>

@@ -14,7 +14,7 @@
 								div(class="number")
 									button(class="less" @click="delOneCart(item)") -
 									input(class="input" :value="item.amount")
-									button(class="plus" @click="addCart(item)") +
+									button(class="plus" @click="addCart(item.productInfo)") +
 						div(class="tool" style="margin-left: auto")
 							span $NT {{item.productInfo.price * item.amount ? item.productInfo.price * item.amount : 0}}
 							button(@click="delCart(item)")
@@ -88,7 +88,7 @@ span {
 }
 
 img {
-	width: 120px;
+	min-width: 120px;
 	height: 120px;
 	margin-right: 20px;
 }

@@ -5,18 +5,31 @@ import App from './App'
 import axios from 'axios'
 import VueAxios from 'vue-axios'
 import VueScrollTo  from 'vue-scrollto'
+import VeeValidate from 'vee-validate'
+import zhTW from 'vee-validate/dist/locale/zh_TW';
+import VueI18n from 'vue-i18n'
 import store from './store'
 import router from './router'
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 import BootstrapVue from 'bootstrap-vue'
 import 'bootstrap'
-
 import currencyFilter from './filter/filter'
 
 Vue.use(BootstrapVue)
 Vue.use(VueAxios, axios)
 Vue.use(VueScrollTo)
+Vue.use(VueI18n)
+const i18n = new VueI18n({
+	locale: 'zhTW'
+})
+Vue.use(VeeValidate, {
+	i18n,
+	dictionary: {
+	  zhTW
+	},
+	events: 'input|blur',
+});
 
 axios.defaults.withCredentials = true 
 
@@ -30,7 +43,8 @@ Vue.config.productionTip = false
 
 /* eslint-disable no-new */
 new Vue({
-el: '#app',
+	i18n,
+	el: '#app',
 	store,
 	router,
 	components: { App },

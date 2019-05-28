@@ -89,28 +89,25 @@ export default new Vuex.Store({
                 state.cartLength = response.data.data.carts.length
             })
         },
-        delCart(state, status) {
-          
-          
-          
-            // const shopcartData = state.shopcartData.filter(function(item) {
-            //     return item.title !== status.title
+        delCart(state, status) {         
+            // const result = state.shopcartData.filter((item) => item.product.title === status.productInfo.title)
+
+            // result.forEach(function(item) {
+            //     let id = item.id
+            //     const api = `${process.env.APIPATH}/api/${process.env.CUSTOMPATH}/cart/${id}`
+            //     	axios.delete(api).then((response) => {
+            //     		console.log(response)           
+            //     	})
             // })
-            // state.shopcartData = shopcartData
+
+
         },
         delOneCart(state, status) {
-
-
-            // const shopcartData = state.shopcartData.filter(function(item) {
-            //     return item.title === status.title
-            // })
-
-            // const shopcartData2 = state.shopcartData.filter(function(item) {
-            //     return item.title !== status.title
-            // })
-
-            // shopcartData.splice(0, 1)
-            // state.shopcartData = shopcartData.concat(shopcartData2)
+            const result = state.shopcartData.filter((item) => item.product.title === status.productInfo.title)
+            const api = `${process.env.APIPATH}/api/${process.env.CUSTOMPATH}/cart/${result.shift().id}`
+            axios.delete(api).then((response) => {
+                console.log(response)           
+            })
         },
         getCountClas(state, status) {
             var arr = []
@@ -163,17 +160,17 @@ export default new Vuex.Store({
                 item.amount = count[item.productInfo.title]  
             })
             
-            console.log(result)
             state.resultShopcart = result
+            console.log(state.shopcartData)
             return state.resultShopcart
         },
         GET_TOTALPRICE: state => {
             var total = 0, fare = 0
             state.resultShopcart.forEach(function(item) {
-                if(item.price === undefined){
-                    item.price = 0
+                if(item.productInfo.price === undefined){
+                    item.productInfo.price = 0
                 }
-                total += item.price * item.amount            
+                total += item.productInfo.price * item.amount            
             })
             
             total < 500 ? fare = 60 : fare = 0

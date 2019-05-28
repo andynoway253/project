@@ -1,7 +1,7 @@
 <template lang="pug">
     div(class="inner")
         div(class="content")
-            div(class="leftInvoice")
+            form(class="leftInvoice" @submit.prevent="creatOrder()")
                 div(class="leftInvoiceContent")
                     div(style="display:flex; align-items: center;")
                         div(style="width: 50%; color: #ffffff;  font-size: 40px; text-align: left")
@@ -15,40 +15,41 @@
                                     icon(name="check" v-if="this.step > 2")
                                 div(class="step-circle" :class="(this.step >= 3) ? 'active' : ''")
                                  
-                    div(class="step1" v-if="this.step === 1")
+                    div(class="step1" v-show="this.step === 1")
                         div(class="nameBox")
                             div(class="firstName")
-                                label(class="name" for="firstName") 姓氏
-                                input(id="firstName" class="form-control nameinput")
-                            div(class="lastName")
-                                label(class="name" for="lastName") 名字
-                                input(id="lastName" class="form-control nameinput")
-                        
+                                label(class="name" for="firstName") 姓名
+                                input(id="firstName" class="form-control nameinput" :class="{'is-invalid': errors.has('name')}" v-model="form.user.name" name="name" v-validate="'required'" placeholder="請輸入姓名")
+                                span(class="text-danger" v-if="errors.has('name')") 請輸入姓名
+                         
                         div(class="form-group" style="padding: 0 5px")
                             label(for="phone" class="h4") 電話
-                            input(id="phone" class="form-control form-control-lg bg-primary-lighter")
-                        
+                            input(id="phone" class="form-control bg-primary-lighter" :class="{'is-invalid': errors.has('tel')}" v-model="form.user.tel" name="tel" v-validate="'required'" placeholder="請輸入電話")
+                            span(class="text-danger" v-if="errors.has('tel')") 請輸入電話
+
                         div(style="text-align: left; color: #EAF0ED")
                             label(for="address" class="h4") 地址
                         div(class="addressBox")
                             div(class="city")
-                                input(id="city" class="form-control cityinput")
+                                input(id="city" class="form-control cityinput" :class="{'is-invalid': errors.has('city')}" v-model="form.user.city" name="city" v-validate="'required'" placeholder="縣市")
+                                span(class="text-danger" v-if="errors.has('city')") 請輸入縣市
                             div(class="area")
-                                input(class="form-control cityinput")
-                        div(style="padding: 0 5px")
-                            input(id="address" class="form-control form-control-lg bg-primary-lighter")
-                    
-                    div(class="step2" v-else-if="this.step === 2")
+                                input(class="form-control cityinput" :class="{'is-invalid': errors.has('area')}" v-model="form.user.area" name="area" v-validate="'required'" placeholder="區域")
+                                span(class="text-danger" v-if="errors.has('area')") 請輸入地區
+                        div(style="padding: 0 5px; text-align: left;")
+                            input(id="address" class="form-control bg-primary-lighter" :class="{'is-invalid': errors.has('address')}" v-model="form.user.address" name="address" v-validate="'required'" placeholder="請輸入詳細地址")
+                            span(class="text-danger" v-if="errors.has('address')") 請輸入地址
+
+                    div(class="step2" v-show="this.step === 2")
                         div(class="form-group")
                             label(for="cardID" class="h4") 信用卡卡號
-                            input(id="cardID" class="form-control form-control-lg bg-primary-lighter")
+                            input(id="cardID" class="form-control bg-primary-lighter")
                         div(style="text-align: left; color: #EAF0ED")
                             label(for="firstName" class="h4") 持卡人姓名
                         div(class="nameBox")
                             div(class="firstName")
                                 input(id="firstName" class="form-control nameinput")
-                            div(class="lastName")
-                                input(class="form-control nameinput")
+                        
                         div(style="text-align: left; color: #EAF0ED")
                             label(for="limitYear" class="h4") 有效期限
                         div(class="limitBox")
@@ -62,7 +63,7 @@
                             div(class="limitDate")
                                 input(id="limitDate" class="form-control limitinput")
                     
-                    div(class="step3" v-else)
+                    div(class="step3" v-show="this.step === 3")
                         div(style="display:flex; align-items: center; border: 1px solid #EAF0ED; margin: 20px;")
                             div(style="width: 50%; color: #3F5D45; font-size: 26px; padding:15px; background-color: #EAF0ED;")
                                 span 電子發票 
@@ -70,13 +71,15 @@
                                 span 郵寄發票 
                         div(class="form-group")
                             label(for="email" class="h4") 電子郵件信箱
-                            input(id="email" class="form-control form-control-lg bg-primary-lighter")
+                            input(id="email" class="form-control bg-primary-lighter" :class="{'is-invalid': errors.has('email')}" v-model="form.user.email" name="email" v-validate="'required|email'" placeholder="請輸入電子信箱")
+                            span(class="text-danger" v-if="errors.has('email')") 請輸入電子信箱
                         div(class="form-group")
                             label(for="taxID" class="h4") 統一編號（選填）
-                            input(id="taxID" class="form-control form-control-lg bg-primary-lighter")
-                
-                button(class="nextStep" @click="nextStep" v-if="this.step < 3") 下一步
-                a(class="nextStep" href="#/success" v-else) 下一步
+                            input(id="taxID" class="form-control bg-primary-lighter")
+                div(style="display: flex")
+                    button(class="nextStep" type="button" @click="Step('pre')" v-if="this.step > 1") 上一步
+                    button(class="nextStep" type="button" @click="Step('next')" v-if="this.step < 3") 下一步
+                    button(class="nextStep" v-if="this.step === 3") 送出訂單
             
             div(class="rightInfo")
                 div(class="bill")
@@ -93,10 +96,10 @@
                 div(class="list")
                     div(class="Title") 購物清單
                     div(class="listItem" v-for="(item, index) in GET_SHOPCARTDATA")
-                        img(class="listImg" :src="item.url")
+                        img(class="listImg" :src="item.productInfo.imageUrl")
                         div(class="text-left")
-                            p {{item.title}}
-                            p NT ${{item.price * item.amount}}
+                            p {{item.productInfo.title}}
+                            p NT ${{item.productInfo.price * item.amount}}
 </template>
 
 <script>
@@ -105,7 +108,18 @@ export default {
     name: 'checkout',
     data () { 
         return {
-            step: 1
+            step: 1,
+            form: {
+                user: {
+                    name: '',
+                    tel: '',
+                    city: '',
+                    area: '',
+                    address: '',
+                    email: '',
+                },
+                message: ''
+            }
         }
     },
     computed: {
@@ -115,8 +129,25 @@ export default {
         ])
     },
 	methods: {
-        nextStep () {
-            this.step ++
+        Step (step) {
+            if(step === 'next'){
+                this.step ++
+            } else {
+                this.step --
+            }
+        },
+        creatOrder () {
+            const order = this.form
+            const api = `${process.env.APIPATH}/api/${process.env.CUSTOMPATH}/order`
+            this.$validator.validate().then((result) => {
+                if (result) {
+                    this.$http.post(api, { data: order }).then((response) => {
+                        console.log('訂單已建立', response)
+                    })
+                } else {
+                    console.log('欄位不完整');
+                }
+            });
         }
 	}
 }
@@ -128,7 +159,9 @@ export default {
 button {
     border: 0;
 }
-
+.text-danger {
+    font-size: 20px;
+}
 .content {
 	display: flex;
 	margin: 60px auto;    
@@ -192,7 +225,7 @@ button {
                     display: flex;
                     align-items: center;
                     margin-bottom: 10px;
-                    .firstName, .lastName, .city, .area, .limitYear, .limitMonth, .limitDate {
+                    .firstName, .city, .area, .limitYear, .limitMonth, .limitDate {
                         width: 100%;
                         color: #EAF0ED;
                         font-size: 26px;
@@ -210,11 +243,12 @@ button {
             }
         }
         .nextStep {
+            display: block;
             width: 100%;
             padding: 20px 0;
-            font-size: 24px;
-            display: block;
+            border: 1px solid #3f5d45;
             background-color: #ffe180;
+            font-size: 24px;
         }
     }
 

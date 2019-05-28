@@ -11,6 +11,7 @@ import login from '@/components/client/login'
 import adminIndex from '@/components/admin/index'
 import adminProduct from '@/components/admin/product'
 import adminOrder from '@/components/admin/order'
+import adminCoupon from '@/components/admin/coupon'
 
 Vue.use(Router)
 
@@ -73,6 +74,12 @@ export default new Router({
 				path: 'adminOrder',
 				name: 'adminOrder',
 				component: adminOrder,
+				meta: { requiresAuth: true}
+			},
+			{
+				path: 'adminCoupon',
+				name: 'adminCoupon',
+				component: adminCoupon,
 				meta: { requiresAuth: true}
 			}
 		]
