@@ -1,1 +1,1 @@
-"# project" 
+使用VUE搭配上VUEX的仿電商前後台網站
