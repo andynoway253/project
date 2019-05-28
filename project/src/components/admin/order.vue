@@ -15,9 +15,9 @@
                         td {{item.user.email}}
                         td
                             ul
-                                li(v-for="item in item.products") {{item.product.title}} * {{item.product.num}}
+                                li(v-for="item in item") {{item.productInfo.title}} * {{item.productInfo.amount}}
                                     
-                        td(class="text-right") {{  }}
+                        td(class="text-right") {{ item.final_total }}
                         td(class="text-right")
                             span(class="text-success" v-if="item.is_paid") 已付款
                             span(class="text-danger" v-else) 未付款
@@ -46,14 +46,10 @@ export default {
             const api = `${process.env.APIPATH}/api/${process.env.CUSTOMPATH}/orders?page=${page}`
 			this.$http.get(api).then((response) => {
                
-                this.orderList = response.data.orders
-
-
                 var arr = []
                 response.data.orders.forEach((element, index) => {
                     arr[index] = [] 
                     Object.keys(element.products).forEach((element2, index2) => {
-                        // console.log(index)
                         arr[index][index2] = {
                             productInfo: element.products[element2].product
                         }
@@ -61,22 +57,33 @@ export default {
                 })
                 
                 const set = new Set()
-                var result = []
+                const result = []
                 arr.forEach((item, index) => {
                     result[index] = arr[index].filter(item => !set.has(item.productInfo.title) ? set.add(item.productInfo.title) : false)
                     set.clear()
                 })
         
-                console.log(result)
-                
-                // arr.filter((item, index) => {
-                //     result[index] = item.filter(item2 => !set.has(item2.productInfo.title) ? set.add(item2.productInfo.title) : false)
-                // })
-                // // const result = arr.filter(item => !set.has(item.productInfo.title) ? set.add(item.productInfo.title) : false)
-                // console.log(result)
-                // response.data.orders.products.forEach(item => {
-                //      console.log(item.product)
-                // });
+                const count = []
+                arr.forEach((item, index) => {
+                    count[index] = []
+                    item.forEach((item2, index2) => {
+                        count[index][item2.productInfo.title] = count[index][item2.productInfo.title] ? count[index][item2.productInfo.title]+1 : 1
+                    })
+                })
+
+                result.forEach((item, index) => {
+                    item.is_paid = response.data.orders[index].is_paid
+                    item.user = response.data.orders[index].user
+                    item.forEach((item2, index2) => {
+                        item2.productInfo.amount = count[index][item2.productInfo.title]
+                    })
+                    var total = 0
+                    result[index].forEach((item3, index3) => {
+                        total += item3.productInfo.amount * item3.productInfo.price
+                        item.final_total = total
+                    })
+                })
+                this.orderList = result
 			})
         }
     }
