@@ -232,6 +232,10 @@ button {
                         text-align: left;
                         padding: 0 5px;
                     }
+                    .addressBox {
+                        display: flex;
+                        align-items: baseline;
+                    }
                     .limitDate {
                         width: 50%;
                     }
