@@ -6,6 +6,23 @@
                 a(class="continue" href="#/product") 繼續逛逛
 </template>
 
+<script>
+import { mapGetters } from 'vuex';
+export default {
+    name: 'checkout',
+    data () { return { } },
+    computed: {
+        ...mapGetters([
+			'GET_SHOPCARTDATA',
+			'GET_TOTALPRICE',
+        ])
+    },
+	methods: {
+
+	}
+}
+</script>
+
 <style lang="scss" scoped>
 @import "src/assets/css/common.scss";
 

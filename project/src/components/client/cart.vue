@@ -45,7 +45,6 @@ export default {
     name: 'cart',
 	data () { return {} },
 	created() {
-		// this.getCart()
 		// this.deleteCart()
 	},
 	computed: {
@@ -56,7 +55,6 @@ export default {
 	},
 	methods: {
 		...mapActions([
-			// 'getCart',
 			'addCart',
 			'delCart',
 			'delOneCart'

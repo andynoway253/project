@@ -5,6 +5,7 @@ import index from '@/components/client/index'
 import product from '@/components/client/product'
 import cart from '@/components/client/cart'
 import checkout from '@/components/client/checkout'
+import checkout2 from '@/components/client/checkout2'
 import success from '@/components/client/success'
 import login from '@/components/client/login'
 
@@ -43,6 +44,12 @@ export default new Router({
 				path: '/checkout',
 				name: 'checkout',
 				component: checkout,
+				meta: { requiresAuth: true}
+			},
+			{
+				path: '/checkout2/:orderId',
+				name: 'checkout2',
+				component: checkout2,
 				meta: { requiresAuth: true}
 			},
 			{

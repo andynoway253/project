@@ -86,20 +86,20 @@
                     div(class="Title") 訂單摘要
                     div(class="billItem")
                         span 小計
-                        span $NT {{GET_TOTALPRICE.TOTAL}}
+                        span $NT {{GET_TOTALPRICE.TOTAL | currency}}
                     div(class="billItem")
                         span 運費
-                        span $NT {{GET_TOTALPRICE.FARE}}
+                        span $NT {{GET_TOTALPRICE.FARE | currency}}
                     div(class="billItem")
                         span 總計
-                        span $NT {{GET_TOTALPRICE.TOTAL + GET_TOTALPRICE.FARE}}
+                        span $NT {{GET_TOTALPRICE.TOTAL + GET_TOTALPRICE.FARE | currency}}
                 div(class="list")
                     div(class="Title") 購物清單
                     div(class="listItem" v-for="(item, index) in GET_SHOPCARTDATA")
                         img(class="listImg" :src="item.productInfo.imageUrl")
                         div(class="text-left")
                             p {{item.productInfo.title}} * {{item.amount}}
-                            p NT ${{item.productInfo.price * item.amount}}
+                            p NT ${{item.productInfo.price * item.amount | currency}}
 </template>
 
 <script>
@@ -143,6 +143,9 @@ export default {
                 if (result) {
                     this.$http.post(api, { data: order }).then((response) => {
                         console.log('訂單已建立', response)
+                        if(response.data.success) {
+                            this.$router.push(`/checkout2/${response.data.orderId}`)
+                        }
                     })
                 } else {
                     console.log('欄位不完整');

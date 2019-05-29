@@ -21,18 +21,9 @@
                         td(class="text-right")
                             span(class="text-success" v-if="item.is_paid") 已付款
                             span(class="text-danger" v-else) 未付款
-
-                div(class="total") 
-
-            div
-            div
-            div
-            div
-            div
 </template>
 
 <script>
-
 export default {
     data() { return {
         orderList: []
@@ -89,3 +80,7 @@ export default {
     }
 }
 </script>
+
+<style lang="scss" scoped>
+
+</style>

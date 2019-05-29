@@ -76,7 +76,7 @@ export default new Vuex.Store({
             const api = `${process.env.APIPATH}/api/${process.env.CUSTOMPATH}/cart`
             const cart = {
                 product_id: status.id,
-                qty: status.num
+                qty: 1
             }
 			axios.post(api, {data: cart}).then((response) => {
                 console.log(response)
