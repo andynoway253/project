@@ -24,7 +24,7 @@
                          
                         div(class="form-group" style="padding: 0 5px")
                             label(for="phone" class="h4") 電話
-                            input(id="phone" class="form-control bg-primary-lighter" :class="{'is-invalid': errors.has('tel')}" v-model="form.user.tel" name="tel" v-validate="'required'" placeholder="請輸入電話")
+                            input(type="tel" id="phone" class="form-control bg-primary-lighter" :class="{'is-invalid': errors.has('tel')}" v-model="form.user.tel" name="tel" v-validate="'required'" placeholder="請輸入電話")
                             span(class="text-danger" v-if="errors.has('tel')") 請輸入電話
 
                         div(style="text-align: left; color: #EAF0ED")
@@ -232,13 +232,14 @@ button {
                         text-align: left;
                         padding: 0 5px;
                     }
-                    .addressBox {
-                        display: flex;
-                        align-items: baseline;
-                    }
                     .limitDate {
                         width: 50%;
                     }
+                }
+
+                .addressBox {
+                    display: flex;
+                    align-items: baseline;
                 }
                 .name, .nameinput, .cityinput, .limitinput {
                     display: block;
