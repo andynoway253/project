@@ -12,6 +12,9 @@
                     td {{item.productInfo.title}}
                     td(class="text-right") {{item.amount}}
                     td(class="text-right") {{item.productInfo.price * item.amount | currency}}
+                tr(v-if=" orderList.total < 500")
+                    td(class="text-right" colspan='2') 運費
+                    td(class="text-right") {{ 60 | currency}}    
                 tr(style="font-size: 24px;")
                     td(class="text-right" colspan='2') 總計
                     td(class="text-right") {{ orderList.total | currency}}
@@ -21,16 +24,16 @@
             tr(class="title") 訂購人資訊
             tr
                 td Email：
-                td {{ orderList.user.email }}
+                td {{orderList.user.email}}
             tr 
                 td 收件人姓名：
-                td {{ orderList.user.name }}
+                td {{orderList.user.name}}
             tr 
                 td 收件人電話：
-                td {{ orderList.user.tel }}
+                td {{orderList.user.tel}}
             tr 
                 td 收件人地址：
-                td {{ orderList.user.address + orderList.user.city + orderList.user.area }}
+                td {{orderList.user.city + orderList.user.area + orderList.user.address}}
             tr 
                 td 付款狀態： 
                 td(class="text-danger") 未付款
@@ -38,8 +41,8 @@
         button(class="btn btn-outline-success" @click="payOrder()") 確認付款
 </template>
 
-
 <script>
+import { mapActions } from 'vuex';
 export default {
     name: 'checkout2',
     data () { 
@@ -52,9 +55,13 @@ export default {
     created() {
         this.orderId = this.$route.params.orderId
         this.getOrder()
+        this.getCart()
     },
 
 	methods: {
+        ...mapActions([
+            'getCart'
+		]),
         getOrder() {
             const api = `${process.env.APIPATH}/api/${process.env.CUSTOMPATH}/order/${this.orderId}`
             this.$http.get(api).then((response) => {
@@ -76,8 +83,9 @@ export default {
                 result.forEach(function(item) {
                     item.amount = count[item.productInfo.title]  
                 })
-                
                 response.data.order.products = result
+                response.data.order.total = response.data.order.total < 500 ? response.data.order.total + 60 : response.data.order.total 
+
                 this.orderList = response.data.order
             })
         },

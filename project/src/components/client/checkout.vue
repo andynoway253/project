@@ -111,6 +111,7 @@ export default {
             step: 1,
             form: {
                 user: {
+                    date: '',
                     name: '',
                     tel: '',
                     city: '',
@@ -137,7 +138,9 @@ export default {
             }
         },
         creatOrder () {
+            var date = new Date()
             const order = this.form
+            this.form.user.date = date.getFullYear() + '/' + (date.getMonth()+1) + '/' + date.getDate()
             const api = `${process.env.APIPATH}/api/${process.env.CUSTOMPATH}/order`
             this.$validator.validate().then((result) => {
                 if (result) {
