@@ -98,7 +98,7 @@
                     div(class="listItem" v-for="(item, index) in GET_SHOPCARTDATA")
                         img(class="listImg" :src="item.productInfo.imageUrl")
                         div(class="text-left")
-                            p {{item.productInfo.title}}
+                            p {{item.productInfo.title}} * {{item.amount}}
                             p NT ${{item.productInfo.price * item.amount}}
 </template>
 
