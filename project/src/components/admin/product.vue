@@ -28,20 +28,7 @@
 						button(class="btn btn-outline-primary btn-sm" @click="openModal(false, item)") 編輯
 						button(class="btn btn-outline-danger btn-sm" @click="openDelModal(item)") 刪除
 
-		nav(aria-label="Page navigation example")
-			ul(class="pagination")
-				li(class="page-item" :class="{'disabled' : !pagination.has_pre}")
-					a(class="page-link" aria-label="Previous" @click.prevent="getProducts(pagination.current_page - 1)")
-						span(aria-hidden="true") &laquo;
-						span(class="sr-only") Previous
-
-				li(class="page-item" v-for="page in pagination.total_pages" :key="page" :class="{'active' : pagination.current_page === page}")
-					a(class="page-link" href="#" @click.prevent="getProducts(page)") {{page}}
-		
-				li(class="page-item" :class="{'disabled' : !pagination.has_next}")
-					a(class="page-link" aria-label="Next" @click.prevent="getProducts(pagination.current_page + 1)")
-						span(aria-hidden="true") &raquo;
-						span(class="sr-only") Next
+		Pagination(:pagination="pagination" @getInform="getProducts")
 
 		<!-- Modal -->
 		div(class="modal fade" id="productModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true")
@@ -119,7 +106,7 @@
 <script>
 import $ from 'jquery'
 import { mapGetters } from 'vuex';
-
+import Pagination from '@/components/admin/pageNavigation';
 export default {
 	data() {
 		return {
@@ -201,6 +188,9 @@ export default {
 			$('#delProductModal').modal('show')
 			this.tempProduct = Object.assign({}, item)
 		}
-	}
+	},
+	components: {
+        Pagination,
+    }
 }
 </script>

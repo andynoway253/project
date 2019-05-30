@@ -25,6 +25,8 @@
                         td(class="text-right")
                             span(class="text-success" v-if="item.is_paid") 已付款
                             span(class="text-danger" v-else) 未付款
+       
+        Pagination(:pagination="pagination" @getInform="getOrder")
 </template>
 
 <script>

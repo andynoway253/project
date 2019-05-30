@@ -48,8 +48,7 @@ export default {
     data () { 
         return { 
             orderId: '',
-            orderList: '',
-            user: ''
+            orderList: ''
         }
     },
     created() {
