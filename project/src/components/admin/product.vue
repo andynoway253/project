@@ -105,8 +105,8 @@
 
 <script>
 import $ from 'jquery'
-import { mapGetters } from 'vuex';
-import Pagination from '@/components/admin/pageNavigation';
+import { mapGetters } from 'vuex'
+import Pagination from '@/components/admin/pageNavigation'
 export default {
 	data() {
 		return {

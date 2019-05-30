@@ -89,7 +89,7 @@
 <script>
 import $ from 'jquery'
 import { mapGetters } from 'vuex';
-
+import Pagination from '@/components/admin/pageNavigation'
 export default {
 	data() {
 		return {
@@ -103,7 +103,7 @@ export default {
 			},
 			due_date: new Date(),
 			isNew: false,
-      		pagination: {},
+      		pagination: {}
 		}
 	},
 	created() {
@@ -183,6 +183,9 @@ export default {
 			$('#delCouponModal').modal('show')
 			this.tempCoupons = Object.assign({}, item)
 		}
-	}
+	},
+	components: {
+        Pagination
+    }
 }
 </script>

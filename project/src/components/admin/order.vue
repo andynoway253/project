@@ -30,19 +30,19 @@
 </template>
 
 <script>
+import Pagination from '@/components/admin/pageNavigation'
 export default {
     data() { return {
-        orderList: []
+        orderList: [],
+        pagination: {}
     }},
     created() {
         this.getOrder()
     },
-    computed: {},
     methods: {
         getOrder(page = 1) {
             const api = `${process.env.APIPATH}/api/${process.env.CUSTOMPATH}/orders?page=${page}`
 			this.$http.get(api).then((response) => {
-               console.log(response)
                 var arr = []
                 response.data.orders.forEach((element, index) => {
                     arr[index] = [] 
@@ -77,12 +77,12 @@ export default {
                     })
                 })
                 this.orderList = result
+                this.pagination = response.data.pagination
 			})
         }
+    },
+	components: {
+        Pagination
     }
 }
 </script>
-
-<style lang="scss" scoped>
-
-</style>
