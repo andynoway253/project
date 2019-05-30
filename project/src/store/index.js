@@ -25,10 +25,11 @@ export default new Vuex.Store({
         productData: [],    //  商品資料陣列
         shopcartData: [],   //  未處理過的購物車陣列
         resultShopcart: [], //  處理過的購物車陣列
+        pagination: {}      //  分頁物件
     },
     actions: {
         getProducts({commit}) {
-            commit('getProductData')
+            commit('getProductData', 1)
             return new Promise((resolve, reject) => {
                 setTimeout(() => {
                     commit('getCountClas')
@@ -99,8 +100,6 @@ export default new Vuex.Store({
             //     		console.log(response)           
             //     	})
             // })
-
-
         },
         delOneCart(state, status) {
             const result = state.shopcartData.filter((item) => item.product.title === status.productInfo.title)
@@ -110,25 +109,35 @@ export default new Vuex.Store({
             })
         },
         getCountClas(state, status) {
-            var arr = []
+            var arr = [], count = 0
+
             state.productData.filter(function (item) { 
-                arr[item.category] = arr[item.category] || []
-                if (arr[item.category] == []) {
-                    arr[item.category] = 0
+                if(item.is_enabled) {
+                    arr[item.category] = arr[item.category] || []
+                    if (arr[item.category] == []) {
+                        arr[item.category] = 0
+                    }
+                    arr[item.category]++
+                    count ++
+                    return arr
                 }
-                arr[item.category]++
-                return arr;
             })
             state.countCategory = arr
-            state.countCategory['所有甜點'] = state.productData.length
+            state.countCategory['所有甜點'] = count
             return state.countCategory
         },
-        getProductData(state, status) {
-            const api = `${process.env.APIPATH}/api/${process.env.CUSTOMPATH}/products`
+        getProductData(state, page) {
+            const api = `${process.env.APIPATH}/api/${process.env.CUSTOMPATH}/products/all`
 			axios.get(api).then((response) => {
                 state.productData = response.data.products
             })
-        }
+        },
+        // getProductDataAll(state, page) {
+        //     const api = `${process.env.APIPATH}/api/${process.env.CUSTOMPATH}/products/all`
+		// 	axios.get(api).then((response) => {
+        //         state.productDataAll = response.data.products
+        //     })
+        // }
     },
     getters: {
         GET_TITLEDATA: state => state.titleDate,

@@ -11,7 +11,7 @@
 					th 分類
 					th(class="text-right") 原價
 					th(class="text-right") 售價
-					th(class="text-right") 是否啟用
+					th(class="text-right") 是否上架
 					th(class="text-right") 編輯
 			tbody
 				tr(v-for="(item, index) in products")
@@ -22,8 +22,8 @@
 					td(class="text-right") {{!item.origin_price ? 0 : item.origin_price | currency}}
 					td(class="text-right") {{!item.price ? 0 : item.price | currency}}
 					td(class="text-right")
-						span(class="text-success" v-if="item.is_enabled" class="text-success") 啟用
-						span(class="text-danger" v-else) 未啟用
+						span(class="text-success" v-if="item.is_enabled" class="text-success") 上架
+						span(class="text-danger" v-else) 未上架
 					td(class="text-right")
 						button(class="btn btn-outline-primary btn-sm" @click="openModal(false, item)") 編輯
 						button(class="btn btn-outline-danger btn-sm" @click="openDelModal(item)") 刪除
@@ -132,6 +132,7 @@ export default {
 			this.$http.get(api).then((response) => {
 				this.products = response.data.products
 				this.pagination = response.data.pagination
+				console.log(response.data.products)
 			})
 		},
 		updateProduct() {

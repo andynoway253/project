@@ -7,17 +7,18 @@
 				button(class="listItem" :class="{'active' : nowClas == index}" v-for="(item, index) in GET_PRODUCTDATACLAS" @click="changeClas(index)") {{GET_PRODUCTDATACLAS[index]}} ({{GET_COUNTCLAS[item]}})
 				
 			div(class="rightBox")
-				div(class="productBox" v-for="(item, index) in productsFilter()")
+				div(class="productBox" v-for="(item, index) in productsFilter()" v-if="item.is_enabled")
 					div(class="productImg" :style="{'background-image': 'url(' + item.imageUrl + ')'}")
 						div(class="productClas") {{item.category}}
 					div(class="productInfo")
 						div(class="productName") {{item.title}}
 						div(class="productPrice") NT {{!item.price ? 0 : item.price | currency}}
 					div(class="addCart" @click="addCart(item)") 加入購物車
+			
 </template>
 
 <script>
-import { mapActions, mapGetters } from 'vuex';
+import { mapActions, mapGetters } from 'vuex'
 export default {
     name: 'product',
     data () { 
@@ -56,7 +57,7 @@ export default {
 		changeClas(index) {
 			this.nowClas = index
 		}
-	},
+	}
 }
 </script>
 

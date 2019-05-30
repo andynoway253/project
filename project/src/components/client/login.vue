@@ -2,7 +2,7 @@
     div(class="inner")
         form(class="content" :class="{'admin' : type === 'admin'}" @submit.prevent="signin")
             div(class="titleBox")
-                p(class="title" @click="changeType('client')") 會員登入
+                //- p(class="title" @click="changeType('client')") 會員登入
                 p(class="title" @click="changeType('admin')") 管理者登入
             div(class="contentBox")
                 p
@@ -21,15 +21,14 @@
 import { mapActions, mapGetters } from 'vuex';
 export default {
     name: 'product',
-    data () { return {
-        user: {
-            username: '',
-            password: ''
-        },
-        type: 'client'
-    } },
-	computed: {
-     
+    data () { 
+        return {
+            user: {
+                username: '',
+                password: ''
+            },
+            type: 'admin'
+        } 
     },
 	methods: {
 		signin() {
@@ -45,7 +44,6 @@ export default {
                         //this.$store.state.isLogin = true
                         this.$router.push('/adminIndex/adminProduct')
                     }
-                    
                 } else {
                     //this.$router.push('/login')
                 }
