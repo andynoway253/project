@@ -93,17 +93,26 @@
                     div(class="billItem")
                         span 總計
                         span $NT {{GET_TOTALPRICE.TOTAL + GET_TOTALPRICE.FARE | currency}}
+                    div(class="billItem" v-if="coupon === true")
+                        span(class="text-success") 折扣價
+                        span(class="text-success") {{final_total | currency}}
+
+                div(class="input-group mb-3 input-group-sm")
+                    input(type="text" class="form-control" placeholder="請輸入優惠碼" v-model="code")
+                    div(class="input-group-append")
+                        button(class="btn btn-outline-secondary" type="button" @click="useCoupon") 套用優惠碼
+                
                 div(class="list")
                     div(class="Title") 購物清單
                     div(class="listItem" v-for="(item, index) in GET_SHOPCARTDATA")
                         img(class="listImg" :src="item.productInfo.imageUrl")
                         div(class="text-left")
                             p {{item.productInfo.title}} * {{item.amount}}
-                            p NT ${{item.productInfo.price * item.amount | currency}}
+                            p NT ${{item.productInfo.price * item.amount | currency}}       
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
+import { mapGetters, mapActions } from 'vuex';
 export default {
     name: 'checkout',
     data () { 
@@ -118,9 +127,13 @@ export default {
                     area: '',
                     address: '',
                     email: '',
+                    fare: 0
                 },
-                message: ''
-            }
+                message: '',    
+            },
+            code: '',
+            coupon: false,
+            final_total: 0
         }
     },
     computed: {
@@ -130,6 +143,9 @@ export default {
         ])
     },
 	methods: {
+        ...mapActions([
+            'getCart'
+		]),
         Step (step) {
             if(step === 'next'){
                 this.step ++
@@ -137,9 +153,23 @@ export default {
                 this.step --
             }
         },
+        useCoupon() {
+            const api = `${process.env.APIPATH}/api/${process.env.CUSTOMPATH}/coupon`
+            this.$http.post(api, { data: { code: this.code } }).then(response => {
+                if (response.data.success) {
+                    this.coupon = true
+                    this.final_total = this.GET_TOTALPRICE.TOTAL < 500 ? response.data.data.final_total + 60 : response.data.data.final_total
+                } else {
+                    alert(response.data.message)
+                }
+            })
+        },
         creatOrder () {
             var date = new Date()
             const order = this.form
+            if(this.GET_TOTALPRICE.TOTAL < 500) { //用原始價格來判斷要不要加運費
+                 this.form.user.fare = this.GET_TOTALPRICE.FARE
+            }
             this.form.user.date = date.getFullYear() + '/' + (date.getMonth()+1) + '/' + date.getDate()
             const api = `${process.env.APIPATH}/api/${process.env.CUSTOMPATH}/order`
             this.$validator.validate().then((result) => {
@@ -151,9 +181,9 @@ export default {
                         }
                     })
                 } else {
-                    console.log('欄位不完整');
+                    console.log('欄位不完整')
                 }
-            });
+            })
         }
 	}
 }
@@ -165,7 +195,7 @@ export default {
 button {
     border: 0;
 }
-.text-danger {
+.text-danger, .text-success {
     font-size: 20px;
 }
 .content {

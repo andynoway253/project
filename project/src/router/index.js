@@ -18,83 +18,82 @@ Vue.use(Router)
 
 export default new Router({
 	routes: [
-	
-	{
-		path: '/',
-		component: clientView,
-		children: [
-			{
-				path: '/',
-				name: 'index',
-				component: index,
-			},
-			{
-				path: '/product',
-				name: 'product',
-				component: product,
-				meta: { requiresAuth: false}
-			},
-			{
-				path: '/cart',
-				name: 'cart',
-				component: cart,
-				meta: { requiresAuth: true}
-			},
-			{
-				path: '/checkout',
-				name: 'checkout',
-				component: checkout,
-				meta: { requiresAuth: true}
-			},
-			{
-				path: '/checkout2/:orderId',
-				name: 'checkout2',
-				component: checkout2,
-				meta: { requiresAuth: true}
-			},
-			{
-				path: '/success',
-				name: 'success',
-				component: success,
-				meta: { requiresAuth: true}
-			},
-			{
-				path: '/login',
-				name: 'login',
-				component: login,
-				meta: { requiresAuth: false}
-			}
-		]
-	},
-	{
-		path: '/adminIndex',
-		name: 'adminIndex',
-		component: adminIndex,
-		children:[
-			{
-				path: 'adminProduct',
-				name: 'adminProduct',
-				component: adminProduct,
-				meta: { requiresAuth: true}
-			},
-			{
-				path: 'adminOrder',
-				name: 'adminOrder',
-				component: adminOrder,
-				meta: { requiresAuth: true}
-			},
-			{
-				path: 'adminCoupon',
-				name: 'adminCoupon',
-				component: adminCoupon,
-				meta: { requiresAuth: true}
-			}
-		]
-	},
+		{
+			path: '/',
+			component: clientView,
+			children: [
+				{
+					path: '/',
+					name: 'index',
+					component: index,
+				},
+				{
+					path: '/product',
+					name: 'product',
+					component: product,
+					meta: { requiresAuth: false}
+				},
+				{
+					path: '/cart',
+					name: 'cart',
+					component: cart,
+					meta: { requiresAuth: true}
+				},
+				{
+					path: '/checkout',
+					name: 'checkout',
+					component: checkout,
+					meta: { requiresAuth: true}
+				},
+				{
+					path: '/checkout2/:orderId',
+					name: 'checkout2',
+					component: checkout2,
+					meta: { requiresAuth: true}
+				},
+				{
+					path: '/success',
+					name: 'success',
+					component: success,
+					meta: { requiresAuth: true}
+				},
+				{
+					path: '/login',
+					name: 'login',
+					component: login,
+					meta: { requiresAuth: false}
+				}
+			]
+		},
+		{
+			path: '/adminIndex',
+			name: 'adminIndex',
+			component: adminIndex,
+			children:[
+				{
+					path: 'adminProduct',
+					name: 'adminProduct',
+					component: adminProduct,
+					meta: { requiresAuth: true}
+				},
+				{
+					path: 'adminOrder',
+					name: 'adminOrder',
+					component: adminOrder,
+					meta: { requiresAuth: true}
+				},
+				{
+					path: 'adminCoupon',
+					name: 'adminCoupon',
+					component: adminCoupon,
+					meta: { requiresAuth: true}
+				}
+			]
+		},
 
-	{ 
-		path: '*', 
-		redirect: '/'
-	}
-  ]
+		{ 
+			path: '*', 
+			redirect: '/'
+		}
+  	]
 })

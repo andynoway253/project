@@ -132,12 +132,6 @@ export default new Vuex.Store({
                 state.productData = response.data.products
             })
         },
-        // getProductDataAll(state, page) {
-        //     const api = `${process.env.APIPATH}/api/${process.env.CUSTOMPATH}/products/all`
-		// 	axios.get(api).then((response) => {
-        //         state.productDataAll = response.data.products
-        //     })
-        // }
     },
     getters: {
         GET_TITLEDATA: state => state.titleDate,
@@ -151,7 +145,8 @@ export default new Vuex.Store({
             state.shopcartData.forEach(function(item, index){ 
                 arr[index] = {
                     productID: item.id,
-                    productInfo: item.product
+                    productInfo: item.product,
+                    coupon: item.coupon
                 }
             })
 
@@ -170,7 +165,6 @@ export default new Vuex.Store({
             })
             
             state.resultShopcart = result
-            console.log(state.shopcartData)
             return state.resultShopcart
         },
         GET_TOTALPRICE: state => {

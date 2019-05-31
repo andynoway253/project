@@ -1,25 +1,27 @@
 <template lang="pug">
     div(class="inner")
-        span(class="title") 訂單資訊
-        table(class="table mt-4") 
-            thead
-                tr
-                    th 購買品項
-                    th(class="text-right") 數量
-                    th(class="text-right") 價錢
-            tbody
-                tr(v-for="(item, index) in orderList.products")
-                    td {{item.productInfo.title}}
-                    td(class="text-right") {{item.amount}}
-                    td(class="text-right") {{item.productInfo.price * item.amount | currency}}
-                tr(v-if=" orderList.total < 500")
-                    td(class="text-right" colspan='2') 運費
-                    td(class="text-right") {{ 60 | currency}}    
-                tr(style="font-size: 24px;")
-                    td(class="text-right" colspan='2') 總計
-                    td(class="text-right") {{ orderList.total | currency}}
-            
-        
+        div(class="content")
+            span(class="title") 訂單資訊
+            table(class="table mt-4") 
+                thead
+                    tr
+                        th 購買品項
+                        th(class="text-right") 數量
+                        th(class="text-right") 價錢
+                tbody
+                    tr(v-for="(item, index) in orderList.products")
+                        td {{item.productInfo.title}}
+                        td(class="text-right") {{item.amount}}
+                        td(class="text-right" v-if="item.productFinal_total === item.productInfo.price") {{item.productInfo.price * item.amount | currency}}
+                        td(class="text-right" v-else) {{item.productFinal_total * item.amount | currency}}
+                            p(class="text-success" v-if="item.userCoupon") (已套用優惠卷)
+                    tr(v-if=" orderList.user.fare")
+                        td(class="text-right" colspan='2') 運費
+                        td(class="text-right") {{ 60 | currency}}    
+                    tr(style="font-size: 24px;")
+                        td(class="text-right" colspan='2') 總計
+                        td(class="text-right") {{ orderList.total | currency}}
+
         table(class="infoBox")
             tr(class="title") 訂購人資訊
             tr
@@ -38,7 +40,7 @@
                 td 付款狀態： 
                 td(class="text-danger") 未付款
 
-        button(class="btn btn-outline-success" @click="payOrder()") 確認付款
+        button(class="btn btn-outline-success checkPaid" @click="payOrder()") 確認付款
 </template>
 
 <script>
@@ -48,7 +50,8 @@ export default {
     data () { 
         return { 
             orderId: '',
-            orderList: ''
+            orderList: '',
+            code: ''
         }
     },
     created() {
@@ -56,7 +59,6 @@ export default {
         this.getOrder()
         this.getCart()
     },
-
 	methods: {
         ...mapActions([
             'getCart'
@@ -67,7 +69,9 @@ export default {
                 var arr = []
                 Object.values(response.data.order.products).forEach((item, index) => {
                     arr[index] = {
-                        productInfo: item.product
+                        productInfo: item.product,
+                        productFinal_total: item.final_total,
+                        userCoupon: item.coupon ? true : false
                     }
                 })
 
@@ -82,13 +86,13 @@ export default {
                 result.forEach(function(item) {
                     item.amount = count[item.productInfo.title]  
                 })
+                console.log(result)
                 response.data.order.products = result
-                response.data.order.total = response.data.order.total < 500 ? response.data.order.total + 60 : response.data.order.total 
-
+                response.data.order.total = response.data.order.user.fare ? response.data.order.total + 60 :  response.data.order.total
                 this.orderList = response.data.order
             })
         },
-        payOrder () {
+        payOrder() {
             const api = `${process.env.APIPATH}/api/${process.env.CUSTOMPATH}/pay/${this.orderId}`
             this.$http.post(api).then((response) => {
                 if(response.data.success) {
@@ -102,9 +106,18 @@ export default {
 
 <style lang="scss" scoped>
 @import "src/assets/css/common.scss";
+
+.content {
+    width: 768px;
+    margin:  auto;
+}
+
 .title {
     font-size: 24px;
 }
+
+
+
 
 .infoBox {
     width: 480px;
@@ -112,7 +125,13 @@ export default {
     text-align: left;
 }
 
-.btn {
+.checkPaid {
     margin: 20px 0;
+}
+
+@media screen and (max-width: $pad) {
+    .content{
+        width: 100%;
+	}
 }
 </style>

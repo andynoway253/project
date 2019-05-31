@@ -21,7 +21,7 @@
                             ul
                                 li(v-for="item in item") {{item.productInfo.title}} * {{item.productInfo.amount}}
                                     
-                        td(class="text-right") {{item.total}}
+                        td(class="text-right") {{item.total + item.user.fare}}
                         td(class="text-right")
                             span(class="text-success" v-if="item.is_paid") 已付款
                             span(class="text-danger" v-else) 未付款
@@ -45,14 +45,14 @@ export default {
 			this.$http.get(api).then((response) => {
                 var arr = []
                 response.data.orders.forEach((element, index) => {
-                    arr[index] = [] 
+                    arr[index] = []  
                     Object.keys(element.products).forEach((element2, index2) => {
                         arr[index][index2] = {
                             productInfo: element.products[element2].product
                         }
                     })
                 })
-                
+
                 const set = new Set()
                 const result = []
                 arr.forEach((item, index) => {
@@ -67,13 +67,13 @@ export default {
                         count[index][item2.productInfo.title] = count[index][item2.productInfo.title] ? count[index][item2.productInfo.title]+1 : 1
                     })
                 })
-
+           
                 result.forEach((item, index) => {
                     item.is_paid = response.data.orders[index].is_paid
                     item.user = response.data.orders[index].user
-                    item.total = response.data.orders[index].total < 500 ? response.data.orders[index].total +60 : response.data.orders[index].total 
+                    item.total = response.data.orders[index].total
                     item.forEach((item2, index2) => {
-                        item2.productInfo.amount = count[index][item2.productInfo.title]
+                        item2.productInfo.amount = count[index][item2.productInfo.title]                        
                     })
                 })
                 this.orderList = result

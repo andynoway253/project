@@ -37,37 +37,37 @@
 						button(type="button" class="close" data-dismiss="modal" aria-label="Close")
 							span(aria-hidden="true") &times;
 						
-						div(class="modal-body")
-							div(class="row")
-								div(class="w-100" style="text-align: -webkit-left;")
-									div(class="form-group")
-										label(for="title") 優惠券名稱
-										input(type="text" class="form-control" id="title" placeholder="請輸入名稱" v-model="tempCoupons.title")
-									div(class="form-row")
-										div(class="form-group col-md-6")
-											label(for="discount") 折扣數
-											input(type="text" class="form-control" id="discount" placeholder="請輸入折扣" v-model="tempCoupons.percent")
-										
+					div(class="modal-body")
+						div(class="row")
+							div(class="w-100" style="text-align: -webkit-left;")
+								div(class="form-group")
+									label(for="title") 優惠券名稱
+									input(type="text" class="form-control" id="title" placeholder="請輸入名稱" v-model="tempCoupons.title")
+								div(class="form-row")
+									div(class="form-group col-md-6")
+										label(for="discount") 折扣數
+										input(type="text" class="form-control" id="discount" placeholder="請輸入折扣" v-model="tempCoupons.percent")
 									
-										div(class="form-group col-md-6")
-											label(for="date") 到期日
-											input(type="date" class="form-control" id="date" placeholder="請輸入期限" v-model="tempCoupons.due_date")
-									
+								
+									div(class="form-group col-md-6")
+										label(for="date") 到期日
+										input(type="date" class="form-control" id="date" placeholder="請輸入期限" v-model="tempCoupons.due_date")
+								
 
-									div(class="form-row")
-										div(class="form-group col-md-6 w-100")
-											label(for="code") 折扣代碼
-											input(type="number" class="form-control" id="code" placeholder="請輸入折扣代碼" v-model="tempCoupons.code")
+								div(class="form-row")
+									div(class="form-group col-md-6 w-100")
+										label(for="code") 折扣代碼
+										input(type="number" class="form-control" id="code" placeholder="請輸入折扣代碼" v-model="tempCoupons.code")
 
-									hr
-									div(class="form-group")
-										div(class="form-check")
-											input(class="form-check-input" type="checkbox" id="is_enabled" v-model="tempCoupons.is_enabled" :true-value="1" :false-value="0")
-											label(class="form-check-label" for="is_enabled") 是否啟用
+								hr
+								div(class="form-group")
+									div(class="form-check")
+										input(class="form-check-input" type="checkbox" id="is_enabled" v-model="tempCoupons.is_enabled" :true-value="1" :false-value="0")
+										label(class="form-check-label" for="is_enabled") 是否啟用
 
-							div(class="modal-footer")
-								button(type="button" class="btn btn-outline-secondary" data-dismiss="modal") 取消
-								button(type="button" class="btn btn-primary" @click='updateCoupons()') 確認
+						div(class="modal-footer")
+							button(type="button" class="btn btn-outline-secondary" data-dismiss="modal") 取消
+							button(type="button" class="btn btn-primary" @click='updateCoupons()') 確認
 
 		<!-- Modal -->
 		div(class="modal fade" id="delCouponModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true")
@@ -95,11 +95,11 @@ export default {
 		return {
 			coupons: [],
 			tempCoupons: {
-				title: "",
+				title: '',
 				is_enabled: 0,
 				percent: 100,
 				due_date: 0,
-				code: ""
+				code: ''
 			},
 			due_date: new Date(),
 			isNew: false,
@@ -172,10 +172,10 @@ export default {
 		openModal(isNew, item) {
 			$('#couponModal').modal('show')
 			if(isNew) {
-				this.tempProduct = {}
+				this.tempCoupons = {}
 				this.isNew = true
 			} else {
-				this.tempProduct = Object.assign({}, item)
+				this.tempCoupons = Object.assign({}, item)
 				this.isNew = false
 			}
 		},
