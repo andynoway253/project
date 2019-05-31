@@ -182,10 +182,6 @@ export default new Vuex.Store({
             infoData.TOTAL = total
             infoData.FARE = fare
             return infoData
-        },
-        GET_LOGIN: state => {
-            state.isLogin = localStorage.getItem('clientToken') === 'clientLogin' ? true : false
-            return state.isLogin
-        },
+        }
     }
 })

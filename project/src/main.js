@@ -51,20 +51,20 @@ new Vue({
 	template: '<App/>'
 })
 
-// 直接重整頁面不會觸發beforeEach
-// if(!localStorage.getItem('token')) {
-// 	router.push('/')
-// }
+//直接重整頁面不會觸發beforeEach
+if(!localStorage.getItem('adminToken')) {
+	router.push('/')
+}
 
-// router.beforeEach((to, from, next) => {
-// 	const isLogin = localStorage.getItem('clientToken') === 'clientLogin'
-// 	if(isLogin) {
-// 		next()
-// 	} else {
-// 		if(to.meta.requiresAuth) {
-// 			alert('請先登入會員')
-// 		} else {
-// 			next()
-// 		}
-// 	}
-// })
+router.beforeEach((to, from, next) => {
+	const isLogin = localStorage.getItem('adminToken') === 'adminLogin'
+	if(isLogin) {
+		next()
+	} else {
+		if(to.meta.requiresAuth) {
+			alert('請先登入會員')
+		} else {
+			next()
+		}
+	}
+})

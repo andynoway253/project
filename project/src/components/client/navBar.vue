@@ -16,8 +16,7 @@
                     b-navbar-nav
                         b-nav-item(href="#/") 首頁
                         b-nav-item(href="#/product") 商品
-                        b-nav-item(href="#/login" v-if="GET_LOGIN === false") 登入
-                        b-nav-item(href="#/" v-if="GET_LOGIN === true" @click="singout()") 登出
+                        b-nav-item(href="#/login") 登入
 </template>
 
 <script>
@@ -30,8 +29,7 @@ export default {
     },
     computed: {
         ...mapGetters([
-            'GET_SHOPCARTLENGTH',
-            'GET_LOGIN'
+            'GET_SHOPCARTLENGTH'
         ])
     },
     methods: {
