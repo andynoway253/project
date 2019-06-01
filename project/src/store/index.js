@@ -129,7 +129,11 @@ export default new Vuex.Store({
         getProductData(state, page) {
             const api = `${process.env.APIPATH}/api/${process.env.CUSTOMPATH}/products/all`
 			axios.get(api).then((response) => {
-                state.productData = response.data.products
+                
+                let indexProduct = response.data.products.filter(item => {
+                    return item.is_enabled === true
+                })
+                state.productData = indexProduct
             })
         },
     },
