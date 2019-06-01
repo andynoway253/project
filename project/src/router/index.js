@@ -37,25 +37,25 @@ export default new Router({
 					path: '/cart',
 					name: 'cart',
 					component: cart,
-					meta: { requiresAuth: true}
+					meta: { requiresAuth: false}
 				},
 				{
 					path: '/checkout',
 					name: 'checkout',
 					component: checkout,
-					meta: { requiresAuth: true}
+					meta: { requiresAuth: false}
 				},
 				{
 					path: '/checkout2/:orderId',
 					name: 'checkout2',
 					component: checkout2,
-					meta: { requiresAuth: true}
+					meta: { requiresAuth: false}
 				},
 				{
 					path: '/success',
 					name: 'success',
 					component: success,
-					meta: { requiresAuth: true}
+					meta: { requiresAuth: false}
 				},
 				{
 					path: '/login',
