@@ -52,6 +52,10 @@ export default {
 
 <style lang="scss" scoped>
 @import "src/assets/css/common.scss";
+.navbar-brand {
+    background-color: unset;
+    box-shadow: unset;
+}
 
 .bigLogo {
     display: block;
