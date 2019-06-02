@@ -7,18 +7,9 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from 'vuex';
 export default {
     name: 'narBar',
     data () { return {} },
-    created() {
-        this.getCart()
-    },
-    computed: {
-        ...mapGetters([
-            'GET_SHOPCARTLENGTH'
-        ])
-    },
     methods: {
         singout() {
             const api = `${process.env.APIPATH}/logout`
