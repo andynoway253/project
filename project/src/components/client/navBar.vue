@@ -16,7 +16,9 @@
                     b-navbar-nav
                         b-nav-item(href="#/") 首頁
                         b-nav-item(href="#/product") 商品
-                        b-nav-item(href="#/login") 登入
+                        b-nav-item(href="#/login" v-if="!GET_LOGIN") 登入
+                        b-nav-item(@click="singout()" v-else) 登出
+                        b-nav-item(href="#/adminIndex/adminProduct" v-if="GET_LOGIN") 回後臺
 </template>
 
 <script>
@@ -26,21 +28,24 @@ export default {
     data () { return {} },
     created() {
         this.getCart()
+        this.getLogin()
     },
     computed: {
         ...mapGetters([
-            'GET_SHOPCARTLENGTH'
+            'GET_SHOPCARTLENGTH',
+            'GET_LOGIN'
         ])
     },
     methods: {
         ...mapActions([
-            'getCart'
+            'getCart',
+            'getLogin'
         ]),
         singout() {
             const api = `${process.env.APIPATH}/logout`
             this.$http.post(api).then((response) => {
                 if(response.data.success) {
-                    localStorage.removeItem('clientToken')
+                    localStorage.removeItem('adminToken')
                     this.$store.state.isLogin = false
                     this.$router.push('/')
                 }

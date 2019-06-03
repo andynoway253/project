@@ -70,6 +70,9 @@ export default new Vuex.Store({
                     resolve()
                 }, 500)
             })
+        },
+        getLogin(context, payload) {
+            context.commit('getLogin', payload)
         }
     },
     mutations: {
@@ -126,7 +129,7 @@ export default new Vuex.Store({
             state.countCategory['所有甜點'] = count
             return state.countCategory
         },
-        getProductData(state, page) {
+        getProductData(state, status) {
             const api = `${process.env.APIPATH}/api/${process.env.CUSTOMPATH}/products/all`
 			axios.get(api).then((response) => {
                 
@@ -136,6 +139,9 @@ export default new Vuex.Store({
                 state.productData = indexProduct
             })
         },
+        getLogin(state, status) {
+            state.isLogin = localStorage.getItem('adminToken') === 'adminLogin'
+        }
     },
     getters: {
         GET_TITLEDATA: state => state.titleDate,
@@ -186,6 +192,9 @@ export default new Vuex.Store({
             infoData.TOTAL = total
             infoData.FARE = fare
             return infoData
+        },
+        GET_LOGIN: state => {
+            return state.isLogin
         }
     }
 })

@@ -17,6 +17,11 @@
                         優惠卷
                     </a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#/">
+                        回前臺
+                    </a>
+                </li>
             </ul>
         </div>
     </nav>
