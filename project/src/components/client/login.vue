@@ -11,6 +11,8 @@
                 p
                     icon(class="key" name="key" scale="1")
                     input(type="password" class="password" placeholder="密碼" v-model="user.password")
+                p(class="text-danger" v-if="error")
+                    span 帳號或密碼輸入錯誤
                 p
                     input(type="checkbox" class="remember")
                     span(class="rememberStr") 記住我
@@ -25,9 +27,11 @@ export default {
         return {
             user: {
                 username: '',
-                password: ''
+                password: '',
+                
             },
-            type: 'admin'
+            type: 'admin',
+            error: false
         } 
     },
 	methods: {
@@ -41,11 +45,10 @@ export default {
                         this.$router.push('/')
                     } else {
                         localStorage.setItem('adminToken', 'adminLogin')
-                        //this.$store.state.isLogin = true
                         this.$router.push('/adminIndex/adminProduct')
                     }
                 } else {
-                    //this.$router.push('/login')
+                    this.error = true
                 }
             })
         },
@@ -74,7 +77,7 @@ export default {
         p:nth-child(2) {
             position: relative;
         }
-        p:nth-child(3) {
+        p:nth-child(n+3) {
             text-align: left;
         }
     }   
@@ -120,15 +123,6 @@ export default {
     font-size: 24px;
     font-weight: bolder;
 }
-
-.content.admin {
-    background-color: #3f4a5d;
-}
-.login.admin {
-    color: #fff;
-    background-color: #8c8c8c;
-}
-
 @media screen and (max-width: $pad) {
     .content {
         width: 100%;
