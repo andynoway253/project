@@ -29,13 +29,10 @@ export default new Vuex.Store({
     },
     actions: {
         getProducts({commit}) {
-            commit('getProductData', 1)
-            return new Promise((resolve, reject) => {
-                setTimeout(() => {
-                    commit('getCountClas')
-                    resolve()
-                }, 1000)
-            })
+            commit('getProductData')
+            setTimeout(() => {
+                commit('getCountClas')
+            }, 1000)  
         },
 
         getCart(context, payload) {
@@ -44,38 +41,35 @@ export default new Vuex.Store({
     
         addCart({commit}, payload) {
             commit('addCart', payload)
-            return new Promise((resolve, reject) => {
-                setTimeout(() => {
-                    commit('getCart')
-                    resolve()
-                }, 500)
-            })
+            setTimeout(() => {
+                commit('getCart')
+            }, 500)
         },
 
-        delCart({commit}, payload) {
-            commit('delCart', payload)
-            return new Promise((resolve, reject) => {
-                setTimeout(() => {
-                    commit('getCart')
-                    resolve()
-                }, 500)
-            })
-        },
+        // delCart({commit}, payload) {
+        //     commit('delCart', payload)
+        //     setTimeout(() => {
+        //         commit('getCart')
+        //     }, 500)
+        // },
 
         delOneCart({commit}, payload) {
             commit('delOneCart', payload)
-            return new Promise((resolve, reject) => {
-                setTimeout(() => {
-                    commit('getCart')
-                    resolve()
-                }, 500)
-            })
+            setTimeout(() => {
+                commit('getCart')
+            }, 500)
         },
         getLogin(context, payload) {
             context.commit('getLogin', payload)
         }
     },
     mutations: {
+        gotData(){
+            console.log(1)
+        },
+        gotOtherData(){
+            console.log(2)
+        },
         addCart(state, status) {
             const api = `${process.env.APIPATH}/api/${process.env.CUSTOMPATH}/cart`
             const cart = {
@@ -93,17 +87,17 @@ export default new Vuex.Store({
                 state.cartLength = response.data.data.carts.length
             })
         },
-        delCart(state, status) {         
-            // const result = state.shopcartData.filter((item) => item.product.title === status.productInfo.title)
+        // delCart(state, status) {         
+        //     const result = state.shopcartData.filter((item) => item.product.title === status.productInfo.title)
 
-            // result.forEach(function(item) {
-            //     let id = item.id
-            //     const api = `${process.env.APIPATH}/api/${process.env.CUSTOMPATH}/cart/${id}`
-            //     	axios.delete(api).then((response) => {
-            //     		console.log(response)           
-            //     	})
-            // })
-        },
+        //     result.forEach(function(item) {
+        //         let id = item.id
+        //         const api = `${process.env.APIPATH}/api/${process.env.CUSTOMPATH}/cart/${id}`
+        //         	axios.delete(api).then((response) => {
+        //         		console.log(response)           
+        //         	})
+        //     })
+        // },
         delOneCart(state, status) {
             const result = state.shopcartData.filter((item) => item.product.title === status.productInfo.title)
             const api = `${process.env.APIPATH}/api/${process.env.CUSTOMPATH}/cart/${result.shift().id}`
