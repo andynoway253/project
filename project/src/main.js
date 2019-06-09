@@ -51,10 +51,11 @@ new Vue({
 	template: '<App/>'
 })
 
-//直接重整頁面不會觸發beforeEach
-if(!localStorage.getItem('adminToken')) {
-	router.push('/')
-}
+// //直接重整頁面不會觸發beforeEach
+// if(!localStorage.getItem('adminToken')) {
+// 	console.log(router)
+// 	router.push('/')
+// }
 
 router.beforeEach((to, from, next) => {
 	const isLogin = localStorage.getItem('adminToken') === 'adminLogin'

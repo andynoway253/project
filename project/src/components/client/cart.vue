@@ -1,10 +1,10 @@
 <template lang="pug">
 	div(class="inner")
-		div(class="content" v-if="GET_SHOPCARTDATA.length !== 0")
+		div(class="content" v-if="GET_RESULTSHOPCART.length !== 0")
 			div(class="leftList")
 				div(class="Title") 您的購物車
 				div(class="cartList")
-					div(class="productItem" v-for="(item, index) in GET_SHOPCARTDATA")
+					div(class="productItem" v-for="(item, index) in GET_RESULTSHOPCART")
 						div(class="info")
 							img(:src="item.productInfo.imageUrl")
 							div(style="display: flex; align-items: center; width: 100%;")
@@ -50,21 +50,36 @@ export default {
 	computed: {
 		...mapGetters([
 			'GET_SHOPCARTDATA',
+			'GET_RESULTSHOPCART',
 			'GET_TOTALPRICE',
         ])
 	},
 	methods: {
 		...mapActions([
+			'getCart',
 			'addCart',
-			'delCart',
 			'delOneCart'
 		]),
-		// deleteCart() {
-		// 	const api = `${process.env.APIPATH}/api/${process.env.CUSTOMPATH}/cart/-LfdG53aSCluB8dzlAtA`
-		// 	this.$http.delete(api).then((response) => {
-		// 		console.log(response)           
-		// 	})
-		// }
+		delCart(data) {
+			var count = 0
+			var deleteArr = this.GET_SHOPCARTDATA.filter(item => item.product.title === data.productInfo.title)
+			var promise = new Promise((resolve, reject) => {
+				deleteArr.forEach((element, index) => {
+					const api = `${process.env.APIPATH}/api/${process.env.CUSTOMPATH}/cart/${element.id}`
+					this.$http.delete(api).then((response) => {
+						console.log(response)
+						if(response.data.success){
+							count++
+							if(count === deleteArr.length) {
+								resolve()
+							}
+						}
+					})		
+				})
+			})
+
+			promise.then(() => this.getCart())
+		}
 	}
 }
 </script>

@@ -64,12 +64,6 @@ export default new Vuex.Store({
         }
     },
     mutations: {
-        gotData(){
-            console.log(1)
-        },
-        gotOtherData(){
-            console.log(2)
-        },
         addCart(state, status) {
             const api = `${process.env.APIPATH}/api/${process.env.CUSTOMPATH}/cart`
             const cart = {
@@ -142,8 +136,9 @@ export default new Vuex.Store({
         GET_PRODUCTDATA: state => state.productData,
         GET_PRODUCTDATACLAS: state => state.productClas,
         GET_COUNTCLAS: state => state.countCategory,
+        GET_SHOPCARTDATA: state => state.shopcartData,
         GET_SHOPCARTLENGTH: state => state.cartLength,
-        GET_SHOPCARTDATA: state => {
+        GET_RESULTSHOPCART: state => {
             // 重整api物件
             var arr = []
             state.shopcartData.forEach(function(item, index){ 
