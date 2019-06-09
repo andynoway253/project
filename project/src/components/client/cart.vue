@@ -77,7 +77,6 @@ export default {
 					})		
 				})
 			})
-
 			promise.then(() => this.getCart())
 		}
 	}
